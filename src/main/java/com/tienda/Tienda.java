@@ -6,6 +6,7 @@ import com.tienda.clientes.Cliente;
 import com.tienda.clientes.Corportativo;
 import com.tienda.clientes.Premium;
 import com.tienda.facturacion.Factura;
+import com.tienda.facturacion.FacturaCorporativa;
 import com.tienda.menu.Menu;
 import com.tienda.menu.MenuConsola;
 import com.tienda.menu.MenuVisual;
@@ -127,9 +128,18 @@ public class Tienda {
     }
 
     public String generarFactura(Cliente cliente) {
-        Factura factura = new Factura(cliente, this.carrito);
-        this.facturas.add(factura);
-        return factura.mostrar();
+        if(cliente instanceof Corportativo) {
+            FacturaCorporativa factura = new FacturaCorporativa(cliente, this.carrito,true);
+            this.facturas.add(factura);
+            return factura.mostrarFacturaCorporativa();
+        }
+        else{
+            Factura factura= new Factura(cliente,this.carrito);
+            this.facturas.add(factura);
+            return factura.mostrar();
+        }
+
+
     }
     private void cargarDatosRudimentario(){
         Cliente cliente= new Premium("Tata","9154999","hola@gmail.com");

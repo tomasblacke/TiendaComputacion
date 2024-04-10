@@ -16,11 +16,12 @@ import java.util.List;
 public class Factura {
 
     private static int autoid = 1;
-    private final int id;
-    private final Cliente cliente;
-    private final List<Item> items;
-    private final LocalDate fecha;
-    private final double total;
+    protected final int id;
+    protected final Cliente cliente;
+    protected final List<Item> items;
+    protected final LocalDate fecha;
+    protected final double total;
+    protected final double subtotal;
 
     public Factura(Cliente cliente, Carrito carrito) {
         this.id = autoid;
@@ -28,7 +29,7 @@ public class Factura {
         this.items = carrito.getItems();
         this.fecha = LocalDate.now();
         this.total = agregarDescuento(cliente,(float)carrito.getTotal());
-
+        this.subtotal= carrito.getTotal();
         autoid++;
     }
     float agregarDescuento(Cliente cliente,float total){
@@ -68,11 +69,13 @@ public class Factura {
                 ------------------------------------------------------------
                 \t%s
                 ------------------------------------------------------------
+                \t                                      SUBTOTAL $%.2f
+                ------------------------------------------------------------------------------------------------------------------------
                 \t                                      TOTAL $%.2f
                 ------------------------------------------------------------
                 """;
 
-            return String.format(formato, fechaFormato, this.id, this.cliente.getNombre(), this.cliente.getDni(), items, this.total);//se agrego la funcion
+            return String.format(formato, fechaFormato, this.id, this.cliente.getNombre(), this.cliente.getDni(), items,this.subtotal, this.total);//se agrego la funcion
         } catch (Exception e) {
             return null;
         }
